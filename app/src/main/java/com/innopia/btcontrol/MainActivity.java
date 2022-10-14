@@ -122,6 +122,12 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
+    public void onDestroy() {
+        unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch(requestCode) {
             case PERMISSION_REQUEST_COARSE_LOCATION: {
