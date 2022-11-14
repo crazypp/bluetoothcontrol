@@ -29,8 +29,7 @@ public class MainActivity extends FragmentActivity {
 
     private static final String LOG_TAG = "[btcontrol]";
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private static final int PERMISSION_REQUEST_BLUETOOTH_SCAN = 2;
-    private static final int PERMISSION_REQUEST_BLUETOOTH_CONNECT = 3;
+    private static final int PERMISSION_REQUEST_BLUETOOTH_S = 2;
     private static final int REQUEST_ENABLE_BT = 0;
     private static final int REQUEST_DISABLE_BT = 1;
     private BluetoothAdapter mBtAdapter;
@@ -136,27 +135,13 @@ public class MainActivity extends FragmentActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        requestPermissions(new String[]{Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_BLUETOOTH_SCAN);
+                        requestPermissions(new String[]{Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_BLUETOOTH_S);
                     }
                 });
                 builder.show();
             } else {
                 refreshUI();
             }
-
-//            if(this.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("This app needs bluetooth scan for bluetooth control.");
-//                builder.setMessage("Please grant bluetooth scan to control bluetooth.");
-//                builder.setPositiveButton(android.R.string.ok, null);
-//                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        requestPermissions(new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PERMISSION_REQUEST_BLUETOOTH_CONNECT);
-//                    }
-//                });
-//                builder.show();
-//            }
         } else {
             Log.d(LOG_TAG,"SDK is under S");
             // request permission
@@ -207,7 +192,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             }
-            case PERMISSION_REQUEST_BLUETOOTH_SCAN: {
+            case PERMISSION_REQUEST_BLUETOOTH_S: {
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.d(LOG_TAG,"Granted : Bluetooth scan permission.");
                     refreshUI();
@@ -227,27 +212,6 @@ public class MainActivity extends FragmentActivity {
                 }
                 break;
             }
-            case PERMISSION_REQUEST_BLUETOOTH_CONNECT: {
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(LOG_TAG,"Granted : Bluetooth Connect permission.");
-                    refreshUI();
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
-                    builder.setMessage("Since bluetooth Connect has not been granted, this app will not be able to control bluetooth.");
-                    builder.setPositiveButton(android.R.string.ok, null);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                        }
-
-                    });
-                    builder.show();
-                }
-                break;
-            }
-
             default:
                 throw new IllegalStateException("Unexpected value: " + requestCode);
         }
